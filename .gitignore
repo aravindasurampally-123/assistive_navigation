@@ -1,0 +1,55 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+ENV/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual Environment
+venv/
+.venv/
+
+# Environment Variables & Secrets
+.env
+api.txt
+*.key
+
+# Model weights & large binaries (keep git repo light)
+*.pt
+*.pth
+*.onnx
+*.bin
+models/*.pt
+!models/.gitkeep
+
+# Cache & Temp Files
+.EasyOCR/
+.cache/
+.pytest_cache/
+*.log
+
+# Database
+database/*.db
+*.sqlite3
+
+# OS Specific
+.DS_Store
+Thumbs.db

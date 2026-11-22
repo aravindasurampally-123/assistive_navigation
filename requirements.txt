@@ -1,0 +1,26 @@
+# AI-Powered Assistive Navigation System
+# Core Requirements for Python 3.11
+
+# Computer Vision & Deep Learning
+opencv-python>=4.8.0
+torch>=2.0.0
+torchvision>=0.15.0
+ultralytics>=8.0.0
+transformers>=4.35.0
+easyocr>=1.7.0
+Pillow>=9.5.0
+numpy>=1.24.0
+
+# Speech & Audio
+pyttsx3>=2.90
+pywin32>=306; sys_platform == 'win32'
+SpeechRecognition>=3.10.0
+
+# Navigation & Geolocation
+geocoder>=1.38.0
+openrouteservice>=2.3.0
+requests>=2.28.0
+
+# User Interface & Utilities
+streamlit>=1.28.0
+python-dotenv>=1.0.0
