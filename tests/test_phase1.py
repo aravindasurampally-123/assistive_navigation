@@ -32,12 +32,21 @@ def test_environment_and_directories():
         assert exists, f"Directory {d} is missing"
     print("      STATUS: OK (All project folders present)")
 
-    # 3. Model weights presence
+    # 3. Model weights presence or auto-download
     yolo_model = PROJECT_ROOT / "models" / "yolov8n.pt"
     print(f"\n[3/6] Checking YOLOv8 Model Weights:")
-    print(f"      Path: {yolo_model}")
+    if not yolo_model.is_file():
+        print(f"      Weights not found locally. Auto-downloading yolov8n.pt...")
+        from ultralytics import YOLO
+        import shutil
+        m = YOLO("yolov8n.pt")
+        downloaded = Path("yolov8n.pt")
+        if downloaded.is_file():
+            shutil.copy(str(downloaded), str(yolo_model))
+
     assert yolo_model.is_file(), "yolov8n.pt model file not found in models/"
     size_mb = yolo_model.stat().st_size / (1024 * 1024)
+    print(f"      Path: {yolo_model}")
     print(f"      Size: {size_mb:.2f} MB")
     print("      STATUS: OK (Model weights verified)")
 

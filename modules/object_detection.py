@@ -8,6 +8,8 @@ and classify their lateral spatial position (left, ahead, right) relative to the
 
 from dataclasses import dataclass
 from typing import List, Tuple, Optional
+from pathlib import Path
+import shutil
 import cv2
 import numpy as np
 from ultralytics import YOLO
@@ -44,10 +46,25 @@ class ObjectDetector:
     """
 
     def __init__(self, model_path: str = YOLO_MODEL_PATH, conf_threshold: float = YOLO_CONFIDENCE_THRESHOLD):
-        """Initialize the YOLOv8 model."""
+        """Initialize the YOLOv8 model with automatic weight download fallback."""
         self.conf_threshold = conf_threshold
-        print(f"[YOLO] Loading model from: {model_path} ...")
-        self.model = YOLO(model_path)
+        target_path = Path(model_path)
+
+        if target_path.is_file():
+            print(f"[YOLO] Loading model from: {target_path} ...")
+            self.model = YOLO(str(target_path))
+        else:
+            print(f"[YOLO] Model weights not found at {target_path}. Auto-downloading yolov8n.pt...")
+            self.model = YOLO("yolov8n.pt")
+            # If target directory exists, copy weights there for future runs
+            try:
+                target_path.parent.mkdir(parents=True, exist_ok=True)
+                downloaded = Path("yolov8n.pt")
+                if downloaded.is_file() and not target_path.is_file():
+                    shutil.copy(str(downloaded), str(target_path))
+            except Exception as e:
+                print(f"[YOLO] Note: Could not cache to target dir ({e})")
+
         self.class_names = self.model.names
         print(f"[YOLO] Successfully loaded model with {len(self.class_names)} classes.")
 
